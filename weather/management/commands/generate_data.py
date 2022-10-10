@@ -1,11 +1,11 @@
 """Generate data for weather."""
-import time
 from datetime import datetime
 
-from django.core.management import BaseCommand
 import requests as req
+from django.core.management import BaseCommand
 
-from weather.constants import BASE_URL, WEATHER_API_KEY, CITIES_URL
+from weather.constants import BASE_URL, CITIES_URL, WEATHER_API_KEY
+from weather.models import WeatherForecast
 
 
 class Command(BaseCommand):
@@ -13,9 +13,9 @@ class Command(BaseCommand):
 
     help = 'Populate weather data'
 
-    def extract_cities(self):
+    def extract_all_data(self):
         """
-        Extract cities.
+        Extract cities and respective weather data.
 
         :return Tuple of longitude and latitude.
         """
@@ -24,8 +24,6 @@ class Command(BaseCommand):
             for i in cities_res.json():
                 lat = i['coord']['lat']
                 lon = i['coord']['lon']
-                print(lat)
-                print(lon)
                 self.extract_weather_data(lat, lon)
         except Exception as e:
             raise Exception('Something went wrong with {error}'.format(error=e))
@@ -46,11 +44,20 @@ class Command(BaseCommand):
                 date_time = datetime.fromtimestamp(i['dt'])
                 description = i['weather'][0]['description']
 
+                # Add weather data.
+                WeatherForecast.objects.create(
+                    city=city_name, description=description,
+                    weather_type=weather_type, date_time_forecasted=date_time)
 
         except Exception as e:
             raise Exception('Something went wrong with {error}'.format(error=e))
 
     def handle(self, *args, **kwargs):
         """Add weather data."""
-        self.extract_cities()
+        # Clear the tables first.
+        WeatherForecast.objects.all().delete()
 
+        self.extract_all_data()
+
+        # TODO: Use logger to print.
+        print("---- DATA EXTRACTION DONE ----")
