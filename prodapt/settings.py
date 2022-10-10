@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
     # packages
     'django_extensions',
+    'django_filters',
 
     # apps
     'weather',
@@ -145,5 +146,8 @@ CELERY_BEAT_SCHEDULE = {
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 100
+    'PAGE_SIZE': 100,
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
 }
