@@ -139,12 +139,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Celery configuration.
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
-CELERY_IMPORTS = (
-    'pokemon.tasks'
-)
+
 CELERY_BEAT_SCHEDULE = {
     "populate_data": {
-        "task": "pokemon.tasks.populate_data",
+        "task": "weather.tasks.populate_data",
         "schedule": crontab(minute="*/1"),
     },
 }
