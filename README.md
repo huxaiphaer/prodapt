@@ -10,6 +10,75 @@ This is a weather application.
 4. Docker.
 5. Postgres DB
 6. Celery.
+7. Bandit.
+8. Isort.
+
+
+
+### Installation Manually.
+
+Clone the project as below :
+
+```
+$ git clone https://github.com/huxaiphaer/prodapt.git
+```
+
+then, cd into the folder prodapt :
+
+```
+$ cd prodapt
+```
+
+install, the dependencies of the project :
+
+```
+$ pip install -r requirements.txt
+```
+
+then before running the project, add a `.env` file and copy the variables from a file `.env.txt`
+
+after that, then populate the DB with some remote data with the following command :
+
+```
+$ ./manage.py generate_data
+```
+
+after that then run the project with :
+
+```
+$ ./manage.py runserver
+```
+
+Further more, inorder to auto get the Weather updates you need to open another 2 terminals and execute the 2 commands below
+independently :
+
+```
+$  celery -A prodapt beat -l info
+```
+
+and :
+
+
+```
+$ celery -A prodapt worker -l info
+```
+
+Finally, you can the weather updates via the endpoint below :
+
+**NOTE**:
+- _You need to provide a Bearer token to the endpoint before accessing the endpoints below._
+
+```
+ http://127.0.0.1:8000/api/v1/weatherforecast/
+```
+
+You can search a city with this endpoint :
+
+```
+ http://127.0.0.1:8000/api/v1/weatherforecast/?search=Berlin&order_by=asc
+```
+
+_Read the table below for more endpoints._
 
 ### Installation on Mac or linux with Docker.
 
