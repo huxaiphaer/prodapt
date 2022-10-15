@@ -103,9 +103,8 @@ Then, the host and the port will be `http://0.0.0.0:8070/`
 | HTTP Method | End Point                                          | Action                          |
 |-------------|----------------------------------------------------|---------------------------------|
 | POST        | api/v1/create/                                     | Sign up                         |
-| GET         | api/v1/login/                                      | Get all Vehicles.               |
-| GET         | api/v1/trips/                                      | Get all trips.                  |
-| GET         | api/v1/weatherforecast/?                           | Get allweather forecast         |
+| GET         | api/v1/login/                                      | Login                           |
+| GET         | api/v1/weatherforecast/?                           | Get all weather forecast        |
 | GET         | api/v1/weatherforecast/?search=berlin&order_by=desc | Search city in descending order |
 | GET         | api/v1/weatherforecast/?search=berlin&order_by=asc | Search city in ascending order  |
 
