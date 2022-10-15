@@ -17,14 +17,18 @@ class Command(BaseCommand):
         """
         Extract cities and respective weather data.
 
-        :return Tuple of longitude and latitude.
         """
         try:
             cities_res = req.get(CITIES_URL)
             for i in cities_res.json():
                 lat = i['coord']['lat']
                 lon = i['coord']['lon']
-                self.extract_weather_data(lat, lon)
+                (city_name, description,
+                 weather_type, date_time) = self.extract_weather_data(lat, lon)
+                # Add weather data.
+                WeatherForecast.objects.create(
+                    city=city_name, description=description,
+                    weather_type=weather_type, date_time_forecasted=date_time)
         except Exception as e:
             raise Exception('Something went wrong with {error}'.format(error=e))
 
@@ -44,10 +48,7 @@ class Command(BaseCommand):
                 date_time = datetime.fromtimestamp(i['dt'])
                 description = i['weather'][0]['description']
 
-                # Add weather data.
-                WeatherForecast.objects.create(
-                    city=city_name, description=description,
-                    weather_type=weather_type, date_time_forecasted=date_time)
+                return city_name, description, weather_type, date_time
 
         except Exception as e:
             raise Exception('Something went wrong with {error}'.format(error=e))
@@ -59,5 +60,5 @@ class Command(BaseCommand):
 
         self.extract_all_data()
 
-        # TODO: Use logger to print.
+        # TODO: Use logger instead of  print.
         print("---- DATA EXTRACTION DONE ----")
