@@ -66,7 +66,7 @@ $ celery -A prodapt worker -l info
 Finally, you can the weather updates via the endpoint below :
 
 **NOTE**:
-- _You need to provide a Bearer token to the endpoint before accessing the endpoints below._
+- _You need to provide a Bearer token to the endpoints before accessing them_
 
 ```
  http://127.0.0.1:8000/api/v1/weatherforecast/
