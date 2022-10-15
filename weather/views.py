@@ -4,7 +4,8 @@ from django.contrib.postgres.search import (SearchQuery, SearchRank,
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
-from rest_framework import generics
+from rest_framework import generics, permissions
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from weather.constants import SEARCH_VALUE
 from weather.models import WeatherForecast
@@ -19,6 +20,8 @@ class WeatherForecastView(generics.ListCreateAPIView):
 
     queryset = WeatherForecast.objects.all()
     serializer_class = WeatherForecastSerializer
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def filter_queryset(self, queryset):
         """Filter the weather forecast."""
